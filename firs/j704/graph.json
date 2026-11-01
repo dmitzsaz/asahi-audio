@@ -1,0 +1,894 @@
+{
+  "node.description": "MacBook Pro Speakers",
+  "media.name": "MacBook Pro Speakers",
+  "filter.graph": {
+    "nodes": [
+      {
+        "type": "builtin",
+        "label": "linear",
+        "name": "preL1",
+        "control": {
+          "Mult": 1.0,
+          "Add": 0.0
+        }
+      },
+      {
+        "type": "builtin",
+        "label": "linear",
+        "name": "preL2",
+        "control": {
+          "Mult": 1.0,
+          "Add": 0.0
+        }
+      },
+      {
+        "type": "builtin",
+        "label": "linear",
+        "name": "preR1",
+        "control": {
+          "Mult": 1.0,
+          "Add": 0.0
+        }
+      },
+      {
+        "type": "builtin",
+        "label": "linear",
+        "name": "preR2",
+        "control": {
+          "Mult": 1.0,
+          "Add": 0.0
+        }
+      },
+      {
+        "type": "lv2",
+        "plugin": "http://lsp-plug.in/plugins/lv2/autogain_stereo",
+        "name": "norm",
+        "control": {
+          "enabled": 1,
+          "lkahead": 3.0,
+          "weight": 5,
+          "level": -12.0,
+          "max_on": 1,
+          "max_amp": 5.0
+        }
+      },
+      {
+        "type": "builtin",
+        "label": "convolver",
+        "name": "vbLL",
+        "config": {
+          "filename": "/usr/share/asahi-audio/j704/vb_LL.wav",
+          "channel": 0,
+          "gain": 1.0
+        }
+      },
+      {
+        "type": "builtin",
+        "label": "convolver",
+        "name": "vbLR",
+        "config": {
+          "filename": "/usr/share/asahi-audio/j704/vb_LR.wav",
+          "channel": 0,
+          "gain": 1.0
+        }
+      },
+      {
+        "type": "builtin",
+        "label": "convolver",
+        "name": "vbRL",
+        "config": {
+          "filename": "/usr/share/asahi-audio/j704/vb_LR.wav",
+          "channel": 0,
+          "gain": 1.0
+        }
+      },
+      {
+        "type": "builtin",
+        "label": "convolver",
+        "name": "vbRR",
+        "config": {
+          "filename": "/usr/share/asahi-audio/j704/vb_LL.wav",
+          "channel": 0,
+          "gain": 1.0
+        }
+      },
+      {
+        "type": "builtin",
+        "label": "mixer",
+        "name": "vbm",
+        "control": {
+          "Gain 1": 0.5,
+          "Gain 2": 0.5
+        }
+      },
+      {
+        "type": "builtin",
+        "label": "convolver",
+        "name": "vblp",
+        "config": {
+          "filename": "/usr/share/asahi-audio/j704/vb_lp6.wav",
+          "channel": 0,
+          "gain": 1.0
+        }
+      },
+      {
+        "type": "builtin",
+        "label": "mult",
+        "name": "vbsq"
+      },
+      {
+        "type": "builtin",
+        "label": "mult",
+        "name": "vbcu"
+      },
+      {
+        "type": "builtin",
+        "label": "convolver",
+        "name": "vbbp",
+        "config": {
+          "filename": "/usr/share/asahi-audio/j704/vb_bp.wav",
+          "channel": 0,
+          "gain": 1.0
+        }
+      },
+      {
+        "type": "lv2",
+        "plugin": "http://lsp-plug.in/plugins/lv2/compressor_mono",
+        "name": "vbcomp",
+        "control": {
+          "scm": 0,
+          "sla": 0.0,
+          "al": 0.044525,
+          "at": 0.5,
+          "rt": 50.0,
+          "cr": 4.0,
+          "kn": 1.0,
+          "mk": 1.0
+        }
+      },
+      {
+        "type": "builtin",
+        "label": "mixer",
+        "name": "vbL",
+        "control": {
+          "Gain 1": 1.0,
+          "Gain 2": 1.0,
+          "Gain 3": 1.0
+        }
+      },
+      {
+        "type": "builtin",
+        "label": "linear",
+        "name": "postL",
+        "control": {
+          "Mult": 1.0,
+          "Add": 0.0
+        }
+      },
+      {
+        "type": "builtin",
+        "label": "mixer",
+        "name": "vbR",
+        "control": {
+          "Gain 1": 1.0,
+          "Gain 2": 1.0,
+          "Gain 3": 1.0
+        }
+      },
+      {
+        "type": "builtin",
+        "label": "linear",
+        "name": "postR",
+        "control": {
+          "Mult": 1.0,
+          "Add": 0.0
+        }
+      },
+      {
+        "type": "builtin",
+        "label": "convolver",
+        "name": "A0LL",
+        "config": {
+          "filename": "/usr/share/asahi-audio/j704/A0_inL_outL.wav",
+          "channel": 0,
+          "gain": 1.0
+        }
+      },
+      {
+        "type": "builtin",
+        "label": "convolver",
+        "name": "A0RL",
+        "config": {
+          "filename": "/usr/share/asahi-audio/j704/A0_inR_outL.wav",
+          "channel": 0,
+          "gain": 1.0
+        }
+      },
+      {
+        "type": "builtin",
+        "label": "convolver",
+        "name": "A1LL",
+        "config": {
+          "filename": "/usr/share/asahi-audio/j704/A1_inL_outL.wav",
+          "channel": 0,
+          "gain": 1.0
+        }
+      },
+      {
+        "type": "builtin",
+        "label": "convolver",
+        "name": "A1RL",
+        "config": {
+          "filename": "/usr/share/asahi-audio/j704/A1_inR_outL.wav",
+          "channel": 0,
+          "gain": 1.0
+        }
+      },
+      {
+        "type": "builtin",
+        "label": "convolver",
+        "name": "A2LL",
+        "config": {
+          "filename": "/usr/share/asahi-audio/j704/A2_inL_outL.wav",
+          "channel": 0,
+          "gain": 1.0
+        }
+      },
+      {
+        "type": "builtin",
+        "label": "convolver",
+        "name": "A2RL",
+        "config": {
+          "filename": "/usr/share/asahi-audio/j704/A2_inR_outL.wav",
+          "channel": 0,
+          "gain": 1.0
+        }
+      },
+      {
+        "type": "builtin",
+        "label": "convolver",
+        "name": "A3LL",
+        "config": {
+          "filename": "/usr/share/asahi-audio/j704/A3_inL_outL.wav",
+          "channel": 0,
+          "gain": 1.0
+        }
+      },
+      {
+        "type": "builtin",
+        "label": "convolver",
+        "name": "A3RL",
+        "config": {
+          "filename": "/usr/share/asahi-audio/j704/A3_inR_outL.wav",
+          "channel": 0,
+          "gain": 1.0
+        }
+      },
+      {
+        "type": "builtin",
+        "label": "mixer",
+        "name": "aL",
+        "control": {
+          "Gain 1": 1.0,
+          "Gain 2": 1.0,
+          "Gain 3": 0.0,
+          "Gain 4": 0.0,
+          "Gain 5": 0.0,
+          "Gain 6": 0.0,
+          "Gain 7": 0.0,
+          "Gain 8": 0.0
+        }
+      },
+      {
+        "type": "builtin",
+        "label": "convolver",
+        "name": "A0LR",
+        "config": {
+          "filename": "/usr/share/asahi-audio/j704/A0_inL_outR.wav",
+          "channel": 0,
+          "gain": 1.0
+        }
+      },
+      {
+        "type": "builtin",
+        "label": "convolver",
+        "name": "A0RR",
+        "config": {
+          "filename": "/usr/share/asahi-audio/j704/A0_inR_outR.wav",
+          "channel": 0,
+          "gain": 1.0
+        }
+      },
+      {
+        "type": "builtin",
+        "label": "convolver",
+        "name": "A1LR",
+        "config": {
+          "filename": "/usr/share/asahi-audio/j704/A1_inL_outR.wav",
+          "channel": 0,
+          "gain": 1.0
+        }
+      },
+      {
+        "type": "builtin",
+        "label": "convolver",
+        "name": "A1RR",
+        "config": {
+          "filename": "/usr/share/asahi-audio/j704/A1_inR_outR.wav",
+          "channel": 0,
+          "gain": 1.0
+        }
+      },
+      {
+        "type": "builtin",
+        "label": "convolver",
+        "name": "A2LR",
+        "config": {
+          "filename": "/usr/share/asahi-audio/j704/A2_inL_outR.wav",
+          "channel": 0,
+          "gain": 1.0
+        }
+      },
+      {
+        "type": "builtin",
+        "label": "convolver",
+        "name": "A2RR",
+        "config": {
+          "filename": "/usr/share/asahi-audio/j704/A2_inR_outR.wav",
+          "channel": 0,
+          "gain": 1.0
+        }
+      },
+      {
+        "type": "builtin",
+        "label": "convolver",
+        "name": "A3LR",
+        "config": {
+          "filename": "/usr/share/asahi-audio/j704/A3_inL_outR.wav",
+          "channel": 0,
+          "gain": 1.0
+        }
+      },
+      {
+        "type": "builtin",
+        "label": "convolver",
+        "name": "A3RR",
+        "config": {
+          "filename": "/usr/share/asahi-audio/j704/A3_inR_outR.wav",
+          "channel": 0,
+          "gain": 1.0
+        }
+      },
+      {
+        "type": "builtin",
+        "label": "mixer",
+        "name": "aR",
+        "control": {
+          "Gain 1": 1.0,
+          "Gain 2": 1.0,
+          "Gain 3": 0.0,
+          "Gain 4": 0.0,
+          "Gain 5": 0.0,
+          "Gain 6": 0.0,
+          "Gain 7": 0.0,
+          "Gain 8": 0.0
+        }
+      },
+      {
+        "type": "lv2",
+        "plugin": "http://lsp-plug.in/plugins/lv2/mb_compressor_stereo",
+        "name": "comp",
+        "control": {
+          "mode": 0,
+          "envb": 0,
+          "g_in": 0.316228,
+          "g_out": 3.981072,
+          "cbe_1": 1,
+          "sf_1": 250.699,
+          "cbe_2": 1,
+          "sf_2": 1352.28,
+          "cbe_3": 1,
+          "sf_3": 6818.74,
+          "cbe_4": 0,
+          "cbe_5": 0,
+          "cbe_6": 0,
+          "cbe_7": 0,
+          "ce_0": 1,
+          "scm_0": 0,
+          "sla_0": 0.0,
+          "al_0": 0.073282,
+          "kn_0": 0.166917,
+          "cr_0": 4.16228,
+          "mk_0": 1.258925,
+          "at_0": 0.1,
+          "rt_0": 50.0,
+          "rrl_0": 0.0,
+          "scs_0": 5,
+          "sscs_0": 5,
+          "ce_1": 1,
+          "scm_1": 0,
+          "sla_1": 0.0,
+          "al_1": 0.190546,
+          "kn_1": 0.263027,
+          "cr_1": 2.4,
+          "mk_1": 1.0,
+          "at_1": 0.1,
+          "rt_1": 50.0,
+          "rrl_1": 0.0,
+          "scs_1": 5,
+          "sscs_1": 5,
+          "ce_2": 1,
+          "scm_2": 0,
+          "sla_2": 0.0,
+          "al_2": 0.130317,
+          "kn_2": 0.280221,
+          "cr_2": 1.8,
+          "mk_2": 1.0,
+          "at_2": 0.1,
+          "rt_2": 50.0,
+          "rrl_2": 0.0,
+          "scs_2": 5,
+          "sscs_2": 5,
+          "ce_3": 1,
+          "scm_3": 0,
+          "sla_3": 0.0,
+          "al_3": 0.27227,
+          "kn_3": 0.273842,
+          "cr_3": 1.8,
+          "mk_3": 1.000507,
+          "at_3": 0.1,
+          "rt_3": 50.0,
+          "rrl_3": 0.0,
+          "scs_3": 5,
+          "sscs_3": 5
+        }
+      },
+      {
+        "type": "builtin",
+        "label": "convolver",
+        "name": "B0",
+        "config": {
+          "filename": "/usr/share/asahi-audio/j704/B_inL_out0.wav",
+          "channel": 0,
+          "gain": 1.0
+        }
+      },
+      {
+        "type": "builtin",
+        "label": "convolver",
+        "name": "B2",
+        "config": {
+          "filename": "/usr/share/asahi-audio/j704/B_inL_out2.wav",
+          "channel": 0,
+          "gain": 1.0
+        }
+      },
+      {
+        "type": "builtin",
+        "label": "convolver",
+        "name": "B4",
+        "config": {
+          "filename": "/usr/share/asahi-audio/j704/B_inL_out4.wav",
+          "channel": 0,
+          "gain": 1.0
+        }
+      },
+      {
+        "type": "builtin",
+        "label": "convolver",
+        "name": "B1",
+        "config": {
+          "filename": "/usr/share/asahi-audio/j704/B_inR_out1.wav",
+          "channel": 0,
+          "gain": 1.0
+        }
+      },
+      {
+        "type": "builtin",
+        "label": "convolver",
+        "name": "B3",
+        "config": {
+          "filename": "/usr/share/asahi-audio/j704/B_inR_out3.wav",
+          "channel": 0,
+          "gain": 1.0
+        }
+      },
+      {
+        "type": "builtin",
+        "label": "convolver",
+        "name": "B5",
+        "config": {
+          "filename": "/usr/share/asahi-audio/j704/B_inR_out5.wav",
+          "channel": 0,
+          "gain": 1.0
+        }
+      },
+      {
+        "type": "lv2",
+        "plugin": "http://lsp-plug.in/plugins/lv2/limiter_stereo",
+        "name": "limW1",
+        "control": {
+          "th": 1.0,
+          "lk": 0.5,
+          "at": 0.5,
+          "rt": 0.5,
+          "alr": 0,
+          "boost": 0,
+          "ovs": 0,
+          "dith": 0,
+          "mode": 0,
+          "slink": 100.0
+        }
+      },
+      {
+        "type": "lv2",
+        "plugin": "http://lsp-plug.in/plugins/lv2/limiter_stereo",
+        "name": "limW2",
+        "control": {
+          "th": 1.0,
+          "lk": 0.5,
+          "at": 0.5,
+          "rt": 0.5,
+          "alr": 0,
+          "boost": 0,
+          "ovs": 0,
+          "dith": 0,
+          "mode": 0,
+          "slink": 100.0
+        }
+      },
+      {
+        "type": "lv2",
+        "plugin": "http://lsp-plug.in/plugins/lv2/limiter_stereo",
+        "name": "limT",
+        "control": {
+          "th": 1.0,
+          "lk": 0.5,
+          "at": 0.5,
+          "rt": 0.5,
+          "alr": 0,
+          "boost": 0,
+          "ovs": 0,
+          "dith": 0,
+          "mode": 0,
+          "slink": 100.0
+        }
+      }
+    ],
+    "links": [
+      {
+        "output": "preL1:Out",
+        "input": "preL2:In"
+      },
+      {
+        "output": "preR1:Out",
+        "input": "preR2:In"
+      },
+      {
+        "output": "preL2:Out",
+        "input": "norm:in_l"
+      },
+      {
+        "output": "preR2:Out",
+        "input": "norm:in_r"
+      },
+      {
+        "output": "norm:out_l",
+        "input": "vbLL:In"
+      },
+      {
+        "output": "norm:out_l",
+        "input": "vbLR:In"
+      },
+      {
+        "output": "norm:out_r",
+        "input": "vbRL:In"
+      },
+      {
+        "output": "norm:out_r",
+        "input": "vbRR:In"
+      },
+      {
+        "output": "norm:out_l",
+        "input": "vbm:In 1"
+      },
+      {
+        "output": "norm:out_r",
+        "input": "vbm:In 2"
+      },
+      {
+        "output": "vbm:Out",
+        "input": "vblp:In"
+      },
+      {
+        "output": "vblp:Out",
+        "input": "vbsq:In 1"
+      },
+      {
+        "output": "vblp:Out",
+        "input": "vbsq:In 2"
+      },
+      {
+        "output": "vbsq:Out",
+        "input": "vbcu:In 1"
+      },
+      {
+        "output": "vblp:Out",
+        "input": "vbcu:In 2"
+      },
+      {
+        "output": "vbcu:Out",
+        "input": "vbbp:In"
+      },
+      {
+        "output": "vbbp:Out",
+        "input": "vbcomp:in"
+      },
+      {
+        "output": "vbLL:Out",
+        "input": "vbL:In 1"
+      },
+      {
+        "output": "vbRL:Out",
+        "input": "vbL:In 2"
+      },
+      {
+        "output": "vbcomp:out",
+        "input": "vbL:In 3"
+      },
+      {
+        "output": "vbL:Out",
+        "input": "postL:In"
+      },
+      {
+        "output": "vbLR:Out",
+        "input": "vbR:In 1"
+      },
+      {
+        "output": "vbRR:Out",
+        "input": "vbR:In 2"
+      },
+      {
+        "output": "vbcomp:out",
+        "input": "vbR:In 3"
+      },
+      {
+        "output": "vbR:Out",
+        "input": "postR:In"
+      },
+      {
+        "output": "postL:Out",
+        "input": "A0LL:In"
+      },
+      {
+        "output": "A0LL:Out",
+        "input": "aL:In 1"
+      },
+      {
+        "output": "postR:Out",
+        "input": "A0RL:In"
+      },
+      {
+        "output": "A0RL:Out",
+        "input": "aL:In 2"
+      },
+      {
+        "output": "postL:Out",
+        "input": "A1LL:In"
+      },
+      {
+        "output": "A1LL:Out",
+        "input": "aL:In 3"
+      },
+      {
+        "output": "postR:Out",
+        "input": "A1RL:In"
+      },
+      {
+        "output": "A1RL:Out",
+        "input": "aL:In 4"
+      },
+      {
+        "output": "postL:Out",
+        "input": "A2LL:In"
+      },
+      {
+        "output": "A2LL:Out",
+        "input": "aL:In 5"
+      },
+      {
+        "output": "postR:Out",
+        "input": "A2RL:In"
+      },
+      {
+        "output": "A2RL:Out",
+        "input": "aL:In 6"
+      },
+      {
+        "output": "postL:Out",
+        "input": "A3LL:In"
+      },
+      {
+        "output": "A3LL:Out",
+        "input": "aL:In 7"
+      },
+      {
+        "output": "postR:Out",
+        "input": "A3RL:In"
+      },
+      {
+        "output": "A3RL:Out",
+        "input": "aL:In 8"
+      },
+      {
+        "output": "postL:Out",
+        "input": "A0LR:In"
+      },
+      {
+        "output": "A0LR:Out",
+        "input": "aR:In 1"
+      },
+      {
+        "output": "postR:Out",
+        "input": "A0RR:In"
+      },
+      {
+        "output": "A0RR:Out",
+        "input": "aR:In 2"
+      },
+      {
+        "output": "postL:Out",
+        "input": "A1LR:In"
+      },
+      {
+        "output": "A1LR:Out",
+        "input": "aR:In 3"
+      },
+      {
+        "output": "postR:Out",
+        "input": "A1RR:In"
+      },
+      {
+        "output": "A1RR:Out",
+        "input": "aR:In 4"
+      },
+      {
+        "output": "postL:Out",
+        "input": "A2LR:In"
+      },
+      {
+        "output": "A2LR:Out",
+        "input": "aR:In 5"
+      },
+      {
+        "output": "postR:Out",
+        "input": "A2RR:In"
+      },
+      {
+        "output": "A2RR:Out",
+        "input": "aR:In 6"
+      },
+      {
+        "output": "postL:Out",
+        "input": "A3LR:In"
+      },
+      {
+        "output": "A3LR:Out",
+        "input": "aR:In 7"
+      },
+      {
+        "output": "postR:Out",
+        "input": "A3RR:In"
+      },
+      {
+        "output": "A3RR:Out",
+        "input": "aR:In 8"
+      },
+      {
+        "output": "aL:Out",
+        "input": "comp:in_l"
+      },
+      {
+        "output": "aR:Out",
+        "input": "comp:in_r"
+      },
+      {
+        "output": "comp:out_l",
+        "input": "B0:In"
+      },
+      {
+        "output": "comp:out_l",
+        "input": "B2:In"
+      },
+      {
+        "output": "comp:out_l",
+        "input": "B4:In"
+      },
+      {
+        "output": "comp:out_r",
+        "input": "B1:In"
+      },
+      {
+        "output": "comp:out_r",
+        "input": "B3:In"
+      },
+      {
+        "output": "comp:out_r",
+        "input": "B5:In"
+      },
+      {
+        "output": "B0:Out",
+        "input": "limW1:in_l"
+      },
+      {
+        "output": "B1:Out",
+        "input": "limW1:in_r"
+      },
+      {
+        "output": "B2:Out",
+        "input": "limW2:in_l"
+      },
+      {
+        "output": "B3:Out",
+        "input": "limW2:in_r"
+      },
+      {
+        "output": "B4:Out",
+        "input": "limT:in_l"
+      },
+      {
+        "output": "B5:Out",
+        "input": "limT:in_r"
+      }
+    ],
+    "inputs": [
+      "preL1:In",
+      "preR1:In"
+    ],
+    "outputs": [
+      "limW1:out_l",
+      "limW1:out_r",
+      "limW2:out_l",
+      "limW2:out_r",
+      "limT:out_l",
+      "limT:out_r"
+    ]
+  },
+  "capture.props": {
+    "node.name": "audio_effect.j704",
+    "media.class": "Audio/Sink",
+    "audio.channels": "2",
+    "audio.position": [
+      "FL",
+      "FR"
+    ],
+    "device.api": "dsp",
+    "audio.allowed-rates": [
+      48000
+    ],
+    "node.virtual": "false",
+    "priority.session": 850,
+    "state.default-volume": 0.343,
+    "device.icon-name": "audio-speakers"
+  },
+  "playback.props": {
+    "node.name": "effect_output.j704",
+    "node.description": "MacBook Pro Speakers DSP Out",
+    "media.name": "MacBook Pro Speakers DSP Out",
+    "target.object": "alsa_output.platform-sound.RawSpeakers",
+    "node.dont-fallback": "true",
+    "node.passive": "true",
+    "audio.channels": "6",
+    "audio.allowed-rates": [
+      48000
+    ],
+    "audio.position": [
+      "AUX0",
+      "AUX1",
+      "AUX2",
+      "AUX3",
+      "AUX4",
+      "AUX5"
+    ]
+  }
+}

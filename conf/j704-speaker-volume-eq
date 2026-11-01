@@ -1,0 +1,116 @@
+#!/usr/bin/env python3
+# SPDX-License-Identifier: MIT
+# Copyright (C) 2026 Dmitriy <noc@pimk.in>
+"""J704 speaker volume-dependent EQ: follow the volume of the Apple-tuned speaker sink and
+crossfade its convolution banks (Apple AID39 renders at several mvsc values), as macOS's
+VarEQ/Tone SystemVolume follow the system volume. The installed volume-eq.json describes
+the controls; without the matching sink or configuration the daemon idles.
+mvsc = sink volume ** exponent: an inferred mapping, not a recovered Apple volume law."""
+import argparse
+import json
+import subprocess
+import time
+
+CONF = "/usr/share/asahi-audio/j704/volume-eq.json"
+
+
+def load():
+    try:
+        with open(CONF) as f:
+            return json.load(f)
+    except Exception:
+        return None
+
+
+def node_id(name):
+    try:
+        objs = json.loads(subprocess.run(["pw-dump"], capture_output=True, text=True,
+                                         timeout=5).stdout)
+    except Exception:
+        return None
+    for o in objs:
+        if o.get("type") == "PipeWire:Interface:Node" and \
+                o.get("info", {}).get("props", {}).get("node.name") == name:
+            return o["id"]
+    return None
+
+
+def volume(nid):
+    r = subprocess.run(["wpctl", "get-volume", str(nid)], capture_output=True, text=True,
+                       timeout=5)
+    if r.returncode != 0 or not r.stdout.startswith("Volume:"):
+        return None
+    return float(r.stdout.split()[1])
+
+
+def weights(v, banks, exponent):
+    m = min(max(v, 0.0), 1.0) ** exponent
+    w = [0.0] * len(banks)
+    for k in range(len(banks) - 1):
+        a, b = banks[k], banks[k + 1]
+        if m <= b:
+            t = (m - a) / (b - a)
+            w[k], w[k + 1] = 1.0 - t, t
+            return w
+    w[-1] = 1.0
+    return w
+
+
+def apply(nid, conf, w, v):
+    params = []
+    pp = conf.get("prepost")
+    if pp:
+        # PipeWire's cubic sink volume: amplitude = v**3; undo it before the nonlinear branch
+        # and restore it after, bounded so silence does not blow the branch up.
+        g = max(min(v, 1.0), 0.0) ** 3
+        gmin = 10 ** (-pp.get("max_pre_db", 40.0) / 20)
+        ge = max(g, gmin)
+        pre = pp["pre"] if isinstance(pp["pre"], list) else [pp["pre"]]
+        rest = 1.0 / ge
+        for k, ctls in enumerate(pre):  # each builtin linear Mult tops out at 10
+            m = rest if k == len(pre) - 1 else min(rest, 10.0)
+            for ctl in (ctls if isinstance(ctls, list) else [ctls]):
+                params += [f'"{ctl}"', f"{m:.6f}"]
+            rest /= m
+        post = ge * 10 ** (conf.get("harmonics_db", 0.0) / 20)
+        for ctl in (pp["post"] if isinstance(pp["post"], list) else [pp["post"]]):
+            params += [f'"{ctl}"', f"{post:.6f}"]
+    pg = 10 ** (conf.get("pregain_db", 0.0) / 20)
+    for ctl in conf.get("pregain", []):
+        params += [f'"{ctl}"', f"{pg:.6f}"]
+    for mixer, per_bank in conf["mixers"].items():
+        for b, ports in enumerate(per_bank):
+            for port in ports:
+                params += [f'"{mixer}:Gain {port}"', f"{w[b]:.4f}"]
+    pod = "{ params = [ " + " ".join(params) + " ] }"
+    return subprocess.run(["pw-cli", "set-param", str(nid), "Props", pod],
+                          capture_output=True, timeout=5).returncode == 0
+
+
+def main():
+    global CONF
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--config", default=CONF)
+    CONF = parser.parse_args().config
+    conf, nid, last = None, None, None
+    while True:
+        if nid is None:
+            conf = load()
+            nid = node_id(conf["node"]) if conf else None
+            last = None
+        if nid is not None:
+            v = volume(nid)
+            if v is None:
+                nid = None
+            else:
+                w = weights(v, conf["banks"], conf.get("exponent", 2.0))
+                if last is None or max(abs(a - b) for a, b in zip(w + [v], last)) > 0.004:
+                    if apply(nid, conf, w, v):
+                        last = w + [v]
+                    else:
+                        nid = None
+        time.sleep(0.25 if nid is not None else 2.0)
+
+
+if __name__ == "__main__":
+    main()

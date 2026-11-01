@@ -11,6 +11,7 @@ a little bit of effort.
 * MacBook Neo (A18 Pro)
 * MacBook Pro (13-inch, M1/M2, 2020/2022)
 * MacBook Pro (14-inch, M3, M1-M3 Pro/Max)
+* MacBook Pro (14-inch, M5 base SoC, J704; initial speaker tuning)
 * MacBook Pro (16-inch, M1-M3 Pro/Max)
 * Mac mini (M1/M2/M2 Pro)
 * Mac Studio (M1-M3 Max/Ultra)
@@ -31,6 +32,10 @@ a little bit of effort.
 * Bankstown 1.1.0 or above
 * Triforce 0.2.0 or above
 * LSP Plugins 1.0.20 or above (only the LV2 set of plugins are used)
+* J704 volume EQ: Python 3, `pw-dump`, `pw-cli` and `wpctl`
+
+The [J704 profile notes](firs/j704/README.md) describe its current tuning,
+coefficient provenance, protection requirements and volume-EQ service.
 
 ### Why this is necessary
 Microspeakers are terrible. They are too small to reproduce any substantial bass at all,

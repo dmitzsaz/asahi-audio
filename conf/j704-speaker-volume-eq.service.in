@@ -1,0 +1,14 @@
+# SPDX-License-Identifier: MIT
+[Unit]
+Description=J704 speaker volume-dependent equalization
+After=pipewire.service wireplumber.service
+PartOf=pipewire.service
+ConditionUser=!root
+
+[Service]
+ExecStart=@LIBEXEC_DIR@/asahi-audio/j704-speaker-volume-eq --config @DATA_DIR@/asahi-audio/j704/volume-eq.json
+Restart=on-failure
+RestartSec=2
+
+[Install]
+WantedBy=pipewire.service

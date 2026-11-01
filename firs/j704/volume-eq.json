@@ -1,0 +1,65 @@
+{
+  "node": "audio_effect.j704",
+  "banks": [
+    0.0,
+    0.125,
+    0.5,
+    1.0
+  ],
+  "exponent": 3.0,
+  "mixers": {
+    "aL": [
+      [
+        1,
+        2
+      ],
+      [
+        3,
+        4
+      ],
+      [
+        5,
+        6
+      ],
+      [
+        7,
+        8
+      ]
+    ],
+    "aR": [
+      [
+        1,
+        2
+      ],
+      [
+        3,
+        4
+      ],
+      [
+        5,
+        6
+      ],
+      [
+        7,
+        8
+      ]
+    ]
+  },
+  "prepost": {
+    "pre": [
+      [
+        "preL1:Mult",
+        "preR1:Mult"
+      ],
+      [
+        "preL2:Mult",
+        "preR2:Mult"
+      ]
+    ],
+    "post": [
+      "postL:Mult",
+      "postR:Mult"
+    ],
+    "max_pre_db": 40.0
+  }
+}

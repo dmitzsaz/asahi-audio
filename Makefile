@@ -3,6 +3,8 @@
 
 PREFIX ?= /usr/
 DATA_DIR ?= $(PREFIX)/share/
+LIBEXEC_DIR ?= $(PREFIX)/libexec
+USER_UNIT_DIR ?= $(PREFIX)/lib/systemd/user
 
 all: aliases
 
@@ -57,12 +59,27 @@ j%: core
 	install -pm0644 -t $(DESTDIR)/$(DATA_DIR)/asahi-audio/$@/ $(wildcard firs/$@/*)
 
 
-install: aliases core j274 j293 j313 j314 j316 j413 j415 j375 j616 j700
+j704: j704-volume-eq
+
+j704-volume-eq:
+	install -dDm0755 $(DESTDIR)/$(LIBEXEC_DIR)/asahi-audio/
+	install -pm0755 conf/j704-speaker-volume-eq $(DESTDIR)/$(LIBEXEC_DIR)/asahi-audio/
+	install -dDm0755 $(DESTDIR)/$(USER_UNIT_DIR)/pipewire.service.wants/
+	sed -e 's|@LIBEXEC_DIR@|$(LIBEXEC_DIR)|g' -e 's|@DATA_DIR@|$(DATA_DIR)|g' conf/j704-speaker-volume-eq.service.in >$(DESTDIR)/$(USER_UNIT_DIR)/j704-speaker-volume-eq.service
+	chmod 0644 $(DESTDIR)/$(USER_UNIT_DIR)/j704-speaker-volume-eq.service
+	ln -sfn ../j704-speaker-volume-eq.service $(DESTDIR)/$(USER_UNIT_DIR)/pipewire.service.wants/j704-speaker-volume-eq.service
+
+install: aliases core j274 j293 j313 j314 j316 j413 j415 j375 j616 j700 j704
 
 uninstall:
+	rm -f $(DESTDIR)/$(LIBEXEC_DIR)/asahi-audio/j704-speaker-volume-eq
+	rm -f $(DESTDIR)/$(USER_UNIT_DIR)/pipewire.service.wants/j704-speaker-volume-eq.service
+	rm -f $(DESTDIR)/$(USER_UNIT_DIR)/j704-speaker-volume-eq.service
 	rm -rf $(DESTDIR)/$(DATA_DIR)/asahi-audio/
 	rm -rf $(DESTDIR)/$(DATA_DIR)/wireplumber/wireplumber.conf.d/99-asahi.conf
 	rm -rf $(DESTDIR)/$(DATA_DIR)/wireplumber/scripts/device/asahi-limit-volume.lua
 	rm -rf $(DESTDIR)/$(DATA_DIR)/wireplumber/scripts/node/asahi-restore-volume.lua
 	rm -rf $(DESTDIR)/$(DATA_DIR)/pipewire/pipewire.conf.d/99-asahi.conf
 	rm -rf $(DESTDIR)/$(DATA_DIR)/pipewire/pipewire-pulse.conf.d/99-asahi.conf
+
+.PHONY: j704-volume-eq
