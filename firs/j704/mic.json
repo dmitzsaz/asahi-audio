@@ -1,0 +1,105 @@
+{
+    "node.description": "MacBook Pro Microphone",
+    "media.name": "MacBook Pro Microphone",
+    "filter.graph": {
+        "nodes": [
+            {
+                "type": "builtin",
+                "label": "convolver",
+                "name": "bf0",
+                "config": {
+                    "filename": "/usr/share/asahi-audio/j704/bf_general_mic0.wav",
+                    "channel": 0
+                }
+            },
+            {
+                "type": "builtin",
+                "label": "convolver",
+                "name": "bf1",
+                "config": {
+                    "filename": "/usr/share/asahi-audio/j704/bf_general_mic1.wav",
+                    "channel": 0
+                }
+            },
+            {
+                "type": "builtin",
+                "label": "convolver",
+                "name": "bf2",
+                "config": {
+                    "filename": "/usr/share/asahi-audio/j704/bf_general_mic2.wav",
+                    "channel": 0
+                }
+            },
+            {
+                "type": "builtin",
+                "label": "mixer",
+                "name": "sum",
+                "control": {
+                    "Gain 1": 1.0,
+                    "Gain 2": 1.0,
+                    "Gain 3": 1.0
+                }
+            }
+        ],
+        "links": [
+            {
+                "output": "bf0:Out",
+                "input": "sum:In 1"
+            },
+            {
+                "output": "bf1:Out",
+                "input": "sum:In 2"
+            },
+            {
+                "output": "bf2:Out",
+                "input": "sum:In 3"
+            }
+        ],
+        "inputs": [
+            "bf0:In",
+            "bf1:In",
+            "bf2:In"
+        ],
+        "outputs": [
+            "sum:Out"
+        ]
+    },
+    "capture.props": {
+        "node.name": "audio_effect.j704-mic",
+        "audio.channels": "3",
+        "audio.position": [
+            "AUX0",
+            "AUX1",
+            "AUX2"
+        ],
+        "audio.allowed-rates": [
+            48000
+        ],
+        "node.virtual": "false",
+        "state.default-volume": 1.0,
+        "device.icon-name": "audio-microphone",
+        "target.object": "alsa_input.platform-sound.RawMics",
+        "node.dont-fallback": "true",
+        "node.passive": "true"
+    },
+    "playback.props": {
+        "node.name": "effect_output.j704-mic",
+        "media.class": "Audio/Source",
+        "priority.session": 2005,
+        "node.passive": "true",
+        "audio.channels": "1",
+        "node.virtual": "false",
+        "state.default-volume": 1.0,
+        "audio.allowed-rates": [
+            8000,
+            11025,
+            16000,
+            22050,
+            44100,
+            48000
+        ],
+        "audio.position": [
+            "MONO"
+        ]
+    }
+}
