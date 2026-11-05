@@ -1,6 +1,9 @@
 {
     "node.description": "MacBook Pro J704 Speakers",
     "media.name": "MacBook Pro J704 Speakers",
+    # The AOP speaker service runs at 48 kHz. Keep the DSP at that rate and
+    # let the stream adapters resample when the PipeWire graph uses another.
+    "audio.rate": 48000,
     "filter.graph": {
         "nodes": [
             {
@@ -241,7 +244,8 @@
         "audio.channels": "2",
         "audio.position": ["FL", "FR"],
         "device.api": "dsp",
-        "audio.allowed-rates": [96000, 88200, 48000, 44100],
+        "audio.allowed-rates": [48000],
+        "resample.disable": false,
         "node.virtual": "false",
         "priority.session": 850,
         "state.default-volume": 0.343,
@@ -257,7 +261,8 @@
         "node.passive": "true",
         "node.pause-on-idle": "false",
         "audio.channels": "6",
-        "audio.allowed-rates": [96000, 88200, 48000, 44100],
+        "audio.allowed-rates": [48000],
+        "resample.disable": false,
         "audio.position": ["AUX0", "AUX1", "AUX2", "AUX3", "AUX4", "AUX5"]
     }
 }

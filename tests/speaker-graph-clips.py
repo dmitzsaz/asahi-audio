@@ -186,24 +186,24 @@ def signals(d):
     return ["pink-12", "bass-sweep", "kick-bass"]
 
 
-def offline_conf(board, d):
+def offline_conf(board, d, rates=(RATE,)):
     g = load(os.path.join(FIRS, board, "graph.json"))
     text = json.dumps(g).replace("/usr/share/asahi-audio/", FIRS + "/")
     g = json.loads(text)
     pp = g["playback.props"]
-    args = {
-        "node.description": "offline render", "media.name": "offline render",
-        "remote.name": "pipewire-off",
-        "filter.graph": g["filter.graph"],
-        "capture.props": {"node.name": "off.in", "media.class": "Audio/Sink", "node.autoconnect": False,
-                          "audio.channels": 2, "audio.position": ["FL", "FR"]},
-        "playback.props": {"node.name": "off.out", "node.autoconnect": False,
-                           "audio.channels": int(pp["audio.channels"]), "audio.position": pp["audio.position"]},
-    }
+    # Keep the graph's actual stream formats and resampler settings. Replacing
+    # these properties would hide rate-negotiation bugs in fixed-rate DSPs.
+    args = g
+    args.update({"node.description": "offline render", "media.name": "offline render",
+                 "remote.name": "pipewire-off"})
+    args["capture.props"].update({"node.name": "off.in", "node.autoconnect": False})
+    pp.update({"node.name": "off.out", "node.autoconnect": False})
+    pp.pop("target.object", None)
+    pp.pop("node.passive", None)
     libs = {"audio.convert.*": "audioconvert/libspa-audioconvert", "support.*": "support/libspa-support"}
     daemon = {
         "context.properties": {"core.daemon": True, "core.name": "pipewire-off", "support.dbus": False,
-                               "default.clock.rate": RATE, "default.clock.allowed-rates": [RATE],
+                               "default.clock.rate": RATE, "default.clock.allowed-rates": list(rates),
                                "default.clock.quantum": 1024, "default.clock.min-quantum": 1024,
                                "default.clock.max-quantum": 1024, "mem.allow-mlock": False},
         "context.spa-libs": libs,
@@ -222,16 +222,18 @@ def offline_conf(board, d):
     }
     for name, c in (("daemon.conf", daemon), ("filter.conf", client)):
         with open(os.path.join(d, name), "w") as f:
-            f.write("\n".join("%s = %s" % (k, json.dumps(v)) for k, v in c.items()) + "\n")
+            f.write("\n".join("%s = %s" % (k, json.dumps(v).replace("}, {", "} {"))
+                              for k, v in c.items()) + "\n")
     return int(pp["audio.channels"])
 
 
 class Offline:
     """One private PipeWire daemon plus the graph as a filter-chain client."""
 
-    def __init__(self, board, top):
+    def __init__(self, board, top, rates=(RATE,)):
         self.d = tempfile.mkdtemp(prefix=board + ".", dir=top)
-        self.n_out = offline_conf(board, self.d)
+        self.rate = RATE
+        self.n_out = offline_conf(board, self.d, rates)
         self.env = dict(os.environ, XDG_RUNTIME_DIR=self.d, PIPEWIRE_RUNTIME_DIR=self.d,
                         PIPEWIRE_REMOTE="pipewire-off")
         self.env.pop("PIPEWIRE_CORE", None)
@@ -269,7 +271,7 @@ class Offline:
 
     def portcfg(self, name, direction, pos):
         # what a session manager does: put the adapter in DSP mode
-        fmt = {"mediaType": "audio", "mediaSubtype": "raw", "format": "F32P", "rate": RATE,
+        fmt = {"mediaType": "audio", "mediaSubtype": "raw", "format": "F32P", "rate": self.rate,
                "channels": len(pos), "position": pos}
         self.run("pw-cli", "s", self.node(name), "PortConfig",
                  json.dumps({"direction": direction, "mode": "dsp", "monitor": False, "format": fmt}))
@@ -282,7 +284,7 @@ class Offline:
 
     def render(self, src, dst):
         rec = self.spawn(["pw-record", "-P", "{ node.autoconnect = false node.name = off.rec }",
-                          "--rate", str(RATE), "--channels", str(self.n_out),
+                          "--rate", str(self.rate), "--channels", str(self.n_out),
                           "--channel-map", ",".join("AUX%d" % i for i in range(self.n_out)),
                           "--format", "f32", dst])
         self.wait(lambda: self.node("off.rec"), "recorder")
